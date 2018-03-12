@@ -1,3 +1,7 @@
+## 1.3.0 / 2018-03-12
+
+* Added BGP_POLICY_DOCUMENT option to specify policy.
+
 ## 1.2.0 / 2018-03-08
 
 * Allow per neighbor configuration with BGP_NEIGHBOR_*

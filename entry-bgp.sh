@@ -30,7 +30,8 @@ create_config_part1() {
 EOF
 
 	if [ -n "$BGP_MAX_PATH" ]; then
-	cat << EOF
+		if [ -z "$BGP_POLICY_DOCUMENT" ]; then
+			cat << EOF
 [global.apply-policy.config]
 	default-import-policy = "reject-route"
 	import-policy-list = ["policy_max_path"]
@@ -44,7 +45,13 @@ EOF
 	[policy-definitions.statements.actions]
 		route-disposition = "accept-route"
 EOF
+		else
+			# BGP_MAX_PATH used together with BGP_POLICY_DOCUMENT
+			# --> not supported
+			echo "# not using \$BGP_MAX_PATH (BGP_POLICY_DOCUMENT used.)"
+		fi
 	fi
+
 
 	# "simple" neighbor specification
 	if [ -n "$BGP_NEIGHBORS" ]; then
@@ -105,6 +112,11 @@ EOF
 		else
 			echo '    redistribute-route-type-list = []'
 		fi
+	fi
+
+	if [ -n "$BGP_POLICY_DOCUMENT" ]; then
+		echo "# included policy document from: $BGP_POLICY_DOCUMENT"
+		cat $BGP_POLICY_DOCUMENT
 	fi
 
 	true

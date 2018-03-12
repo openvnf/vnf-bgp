@@ -67,13 +67,20 @@ BGP_FIB_MANIPULATION=yes
 BGP_FIB_ANNOUNCE=yes
 
 # maximum acceptable as-path length for imports
-# This option is deprecated. Use per neighbor config
-# instead (as soon as it is implemented).
+# This option is deprecated. Use policy document instead.
+# (Option is not available when policy document is
+# specified.)
 BGP_MAX_PATH=1
 
 # BGP authentication password. Shared over all neighbors
 # (Currently only one shared password for all neighbors.)
 BGP_AUTHPASSWORD=secret
+
+# Policy document. Path to a file containing the policy
+# specification. The format is toml with syntax borrowed
+# from gobgp:
+# https://github.com/osrg/gobgp/blob/master/docs/sources/policy.md
+BGP_POLICY_DOCUMENT=/volume1/bgp.policy
 ```
 
 ### Caveats and Pitfalls

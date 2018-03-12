@@ -1,0 +1,86 @@
+[global.apply-policy.config]
+
+import-policy-list = ["import_pol"]
+default-import-policy = "reject-route"
+
+export-policy-list = ["export_pol"]
+default-export-policy = "reject-route"
+
+
+[[defined-sets.prefix-sets]]
+  prefix-set-name = "ps_0000"
+  [[defined-sets.prefix-sets.prefix-list]]
+    ip-prefix = "0.0.0.0/0"
+    masklength-range = "0..0"
+
+[[defined-sets.prefix-sets]]
+  prefix-set-name = "ps_alice_imports"
+  [[defined-sets.prefix-sets.prefix-list]]
+    ip-prefix = "192.0.3.128/28"
+    masklength-range = "28..28"
+
+[[defined-sets.bgp-defined-sets.as-path-sets]]
+  as-path-set-name = "aspath_export_from_chuck"
+  as-path-list = ["^65020_65030$"]
+
+[[defined-sets.bgp-defined-sets.as-path-sets]]
+  as-path-set-name = "aspath_export_from_alice"
+  as-path-list = ["^65020_65010$"]
+
+[[defined-sets.bgp-defined-sets.as-path-sets]]
+  as-path-set-name = "aspath_import_from_alice"
+  as-path-list = ["^65010$"]
+
+[[defined-sets.bgp-defined-sets.as-path-sets]]
+  as-path-set-name = "aspath_import_from_chuck"
+  as-path-list = ["^65030$"]
+
+
+[[policy-definitions]]
+  name = "import_pol"
+  [[policy-definitions.statements]]
+    name = "import_pol_statement1"
+    [policy-definitions.statements.conditions.match-prefix-set]
+      prefix-set = "ps_alice_imports"
+      match-set-options = "any"
+   [policy-definitions.statements.conditions.bgp-conditions.match-as-path-set]
+     as-path-set = "aspath_import_from_alice"
+     match-set-options = "any"
+   [policy-definitions.statements.actions]
+     route-disposition = "accept-route"
+
+  [[policy-definitions.statements]]
+    name = "import_pol_statement2"
+    [policy-definitions.statements.conditions.match-prefix-set]
+      prefix-set = "ps_0000"
+      match-set-options = "any"
+   [policy-definitions.statements.conditions.bgp-conditions.match-as-path-set]
+     as-path-set = "aspath_import_from_chuck"
+     match-set-options = "any"
+   [policy-definitions.statements.actions]
+     route-disposition = "accept-route"
+
+[[policy-definitions]]
+  name = "export_pol"
+  [[policy-definitions.statements]]
+    name = "export_pol_statement1"
+    [policy-definitions.statements.conditions.match-prefix-set]
+      prefix-set = "ps_0000"
+      match-set-options = "any"
+    [policy-definitions.statements.conditions.bgp-conditions.match-as-path-set]
+      as-path-set = "aspath_export_from_chuck"
+      match-set-options = "any"
+    [policy-definitions.statements.actions]
+      route-disposition = "accept-route"
+
+  [[policy-definitions.statements]]
+    name = "export_pol_statement2"
+    [policy-definitions.statements.conditions.match-prefix-set]
+      prefix-set = "ps_alice_imports"
+      match-set-options = "any"
+    [policy-definitions.statements.conditions.bgp-conditions.match-as-path-set]
+      as-path-set = "aspath_export_from_alice"
+      match-set-options = "any"
+    [policy-definitions.statements.actions]
+      route-disposition = "accept-route"
+
