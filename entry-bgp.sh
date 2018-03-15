@@ -82,6 +82,7 @@ EOF
 			vn_address="BGP_NEIGHBOR_${idx}_ADDRESS"
 			vn_authpassword="BGP_NEIGHBOR_${idx}_AUTHPASSWORD"
 			vn_local_as="BGP_NEIGHBOR_${idx}_LOCAL_AS"
+			vn_remove_private_as="BGP_NEIGHBOR_${idx}_REMOVE_PRIVATE_AS"
 			cat << EOF
 [[neighbors]]
   [neighbors.config]
@@ -93,6 +94,13 @@ EOF
 			fi
 			if [ -n "${!vn_authpassword}" ]; then
 				printf "    auth-password = \"${!vn_authpassword}\"\n"
+			fi
+			if [ -n "${!vn_remove_private_as}" ]; then
+				if [ "${!vn_remove_private_as}" = all -o "${!vn_remove_private_as}" = replace -o "${!vn_remove_private_as}" = none ]; then
+					printf "    remove-private-as = \"${!vn_remove_private_as}\"\n"
+				else
+					printf "# Invalid BGP_NEIGHBOR_${idx}_REMOVE_PRIVATE_AS=${!vn_remove_private_as} ignored.\n"
+				fi
 			fi
 			printf "\n\n"
 		done

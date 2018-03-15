@@ -1,3 +1,7 @@
+## 1.4.0 / 2018-03-15
+
+* Added BGP_NEIGHBOR_*_REMOVE_PRIVATE_AS option.
+
 ## 1.3.0 / 2018-03-12
 
 * Added BGP_POLICY_DOCUMENT option to specify policy.
