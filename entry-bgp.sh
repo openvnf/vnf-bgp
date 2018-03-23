@@ -29,6 +29,13 @@ create_config_part1() {
 	router-id = "$BGP_ROUTER_ID"
 EOF
 
+    if [ -n "$BGP_LISTEN_IP" ]; then
+        cat << EOF
+    # listen address list (by default "0.0.0.0" and "::")
+    local-address-list = ["$BGP_LISTEN_IP"]
+EOF
+   fi
+
 	if [ -n "$BGP_MAX_PATH" ]; then
 		if [ -z "$BGP_POLICY_DOCUMENT" ]; then
 			cat << EOF
