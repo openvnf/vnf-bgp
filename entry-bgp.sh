@@ -83,6 +83,9 @@ EOF
 			vn_authpassword="BGP_NEIGHBOR_${idx}_AUTHPASSWORD"
 			vn_local_as="BGP_NEIGHBOR_${idx}_LOCAL_AS"
 			vn_remove_private_as="BGP_NEIGHBOR_${idx}_REMOVE_PRIVATE_AS"
+			vn_timer_connect_retry="BGP_NEIGHBOR_${idx}_TIMER_CONNECT_RETRY"
+			vn_timer_hold="BGP_NEIGHBOR_${idx}_TIMER_HOLD"
+			vn_timer_keepalive="BGP_NEIGHBOR_${idx}_TIMER_KEEPALIVE"
 			cat << EOF
 [[neighbors]]
   [neighbors.config]
@@ -101,6 +104,19 @@ EOF
 				else
 					printf "# Invalid BGP_NEIGHBOR_${idx}_REMOVE_PRIVATE_AS=${!vn_remove_private_as} ignored.\n"
 				fi
+			fi
+			if [ -n "${!vn_timer_connect_retry}${!vn_timer_hold}${!vn_timer_keepalive}" ]; then
+				printf "  [neighbors.timers.config]\n"
+			if [ -n "${!vn_timer_connect_retry}" ]; then
+				printf "    connect-retry = ${!vn_timer_connect_retry}\n"
+			fi
+			if [ -n "${!vn_timer_hold}" ]; then
+				printf "    hold-time = ${!vn_timer_hold}\n"
+			fi
+			if [ -n "${!vn_timer_keepalive}" ]; then
+				printf "    keepalive-interval = ${!vn_timer_keepalive}\n"
+			fi
+
 			fi
 			printf "\n\n"
 		done

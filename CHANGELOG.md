@@ -1,3 +1,9 @@
+## 1.5.0 / 2018-05-11
+
+* Added BGP_NEIGHBOR_*_TIMER_CONNECT_RETRY option.
+* Added BGP_NEIGHBOR_*_TIMER_HOLD option.
+* Added BGP_NEIGHBOR_*_TIMER_KEEPALIVE option.
+
 ## 1.4.0 / 2018-03-15
 
 * Added BGP_NEIGHBOR_*_REMOVE_PRIVATE_AS option.
