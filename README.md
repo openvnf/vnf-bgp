@@ -33,6 +33,10 @@ Alternatively it is (will be) also possible to point $ENVFILE to an environment 
 # source specified file before startup.
 ENVFILE=/tmp/generated-config.env
 
+# listen address (by default "0.0.0.0" and "::")
+# currently supports only one IP if set, no list
+BGP_LISTEN_IP=127.0.0.1
+
 # the local AS:
 BGP_LOCAL_AS=65000
 
