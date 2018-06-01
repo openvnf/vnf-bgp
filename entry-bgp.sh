@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -128,8 +128,8 @@ EOF
   [zebra.config]
     enabled = true
     #url = "tcp:127.0.0.1:2601"
-    url = "unix:/run/frr/zserv.api"
-    version = 4
+    url = "unix:/run/quagga/zserv.api"
+    version = 3
 EOF
 		if [ -n "$BGP_FIB_ANNOUNCE" ]; then
 			echo '    redistribute-route-type-list = ["connect"]'
@@ -174,7 +174,7 @@ run_bgpd() {
 		create_zebra_config |tee /run/zebra.conf
 		printf "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n"
 		echo "Starting fib manipulator..."
-		/usr/lib/frr/zebra --config_file /run/zebra.conf &
+		/usr/sbin/zebra --config_file /run/zebra.conf &
 		sleep 3
 		printf "Done.\n\n"
 	fi
@@ -235,4 +235,3 @@ shift # command
 if [ "$command" = announce ]; then
 	announce "$@"
 fi
-

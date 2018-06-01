@@ -1,3 +1,8 @@
+## 1.6.0 / 2018-xx-xx
+
+* Switch to Alpine for smaller images
+* Switch to Quagga or Zebra deamon
+
 ## 1.5.0 / 2018-05-11
 
 * Added BGP_NEIGHBOR_*_TIMER_CONNECT_RETRY option.
