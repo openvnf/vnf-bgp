@@ -122,6 +122,17 @@ EOF
 		done
 	fi
 
+	if [ -n "$BGP_IPV6" -o "$BGP_IPV6" = yes ]; then
+	    cat << EOF
+  [[neighbors.afi-safis]]
+    [neighbors.afi-safis.config]
+      afi-safi-name = "ipv4-unicast"
+  [[neighbors.afi-safis]]
+    [neighbors.afi-safis.config]
+      afi-safi-name = "ipv6-unicast"
+EOF
+	fi
+
 	if [ -n "$BGP_FIB_MANIPULATION" ]; then
 		cat << EOF
 [zebra]
@@ -149,12 +160,15 @@ EOF
 create_zebra_config() {
 	cat << EOF
 hostname zebra
-no ipv6 forwarding
 password zebra
 enable password zebra
 line vty
 log stdout debugging
 EOF
+	if [ -z "$BGP_IPV6" -o "$BGP_IPV6" = no ]; then
+	    echo "no ipv6 forwarding"
+	fi
+
 	true
 }
 
