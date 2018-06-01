@@ -197,10 +197,10 @@ run_bgpd() {
 	if [ -n "$BGP_STATIC_ROUTES" ]; then
 		echo "Going to inject to rib: $BGP_STATIC_ROUTES"
 		nohup env routes="$BGP_STATIC_ROUTES" \
-			bash -c "IFS=, ; \
+			/bin/sh -c "IFS=, ; \
 			sleep 1 ; \
                         for r in \$routes; do \
-                               if [[ \$r =~ : ]]; then \
+                               if expr \$r : '.*:' ; then \
                                         echo /usr/bin/gobgp global rib add -a ipv6 \$r origin egp ; \
                                else \
                                         echo /usr/bin/gobgp global rib add -a ipv4 \$r origin egp ; \
