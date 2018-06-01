@@ -199,9 +199,13 @@ run_bgpd() {
 		nohup env routes="$BGP_STATIC_ROUTES" \
 			bash -c "IFS=, ; \
 			sleep 1 ; \
-			for r in \$routes; do \
-				/usr/bin/gobgp global rib add -a ipv4 \$r origin egp ; \
-			done" > /dev/null 2>&1 &
+                        for r in \$routes; do \
+                               if [[ \$r =~ : ]]; then \
+                                        echo /usr/bin/gobgp global rib add -a ipv6 \$r origin egp ; \
+                               else \
+                                        echo /usr/bin/gobgp global rib add -a ipv4 \$r origin egp ; \
+                               fi \
+			done"  > /dev/null 2>&1 &
 	fi
 
 	echo "executing bgp daemon..."
