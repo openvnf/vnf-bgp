@@ -39,6 +39,9 @@ BGP_LOCAL_AS=65000
 # the identification (and peer address) of ourself
 BGP_ROUTER_ID=192.0.2.1
 
+# the local address list (optional, default: "0.0.0.0", "::")
+BGP_LOCAL_ADDRESS_LIST=192.168.1.2,abcd:1234::1,::
+
 # The simplest way of specifying neighbors
 # (comma separated list of AS/ip pairs):
 BGP_NEIGHBORS=65010@192.0.2.10,65020@192.0.2.20

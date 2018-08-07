@@ -28,6 +28,17 @@ create_config_part1() {
 	as = $BGP_LOCAL_AS
 	router-id = "$BGP_ROUTER_ID"
 EOF
+	if [ -n "$BGP_LOCAL_ADDRESS_LIST" ]; then
+		IFS=,
+		comma=
+		lalist=
+		for localaddr in $BGP_LOCAL_ADDRESS_LIST; do
+			lalist=${lalist}${comma}\"${localaddr}\"
+			comma=", "
+		done
+		unset IFS
+		echo "        local-address-list = [ ${lalist} ]"
+	fi
 
 	if [ -n "$BGP_MAX_PATH" ]; then
 		if [ -z "$BGP_POLICY_DOCUMENT" ]; then
