@@ -5,8 +5,8 @@ RUN     apk update && apk --no-cache upgrade && \
 
 ENV GOPATH /go
 WORKDIR /go
-RUN go get github.com/osrg/gobgp/gobgp
-RUN go get github.com/osrg/gobgp/gobgpd
+RUN go get github.com/osrg/gobgp/cmd/gobgp
+RUN go get github.com/osrg/gobgp/cmd/gobgpd
 
 FROM alpine as runstage
 
